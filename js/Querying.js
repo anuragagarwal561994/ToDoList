@@ -8,8 +8,6 @@ var addAnItemToList = function(){
 		newTask.icon = 'fui-new';
 	else
 		newTask.icon = newTaskIcon;
-	newTask.latitude = currentClickedMarker.position.lat();
-	newTask.longitude = currentClickedMarker.position.lng();
 	newTask.currentProgress = 0;
 	newTask.undoneColor = newTaskUnDoneColor;
 	newTask.detailColor = newTaskDetailColor;
@@ -22,8 +20,14 @@ var addAnItemToList = function(){
 	if(newTask.detail.length===0)
 		newTask.detail = 'Detail';
 	addToHTML(newTask);
+	if(currentClickedMarker!=null){
+		newTask.latitude = currentClickedMarker.position.lat();
+		newTask.longitude = currentClickedMarker.position.lng();
+		currentClickedMarker.allMarkerTasks.push(newTask);
+	}
+	else
+		nonLocationTasks.push(newTask);
 	addTaskToDatabase(newTask);
-	currentClickedMarker.allMarkerTasks.push(newTask);
 };
 var addToHTML = function(newTask){
 	var list = $("#to ul");
@@ -137,12 +141,27 @@ var addToHTML = function(newTask){
 		else
 			$('#task-done').css('width', 0 + "%");
 		deleteFromDatabase(newTask.id);
-		for(var i=0;i<currentClickedMarker.allMarkerTasks.length;i++)
-			if(currentClickedMarker.allMarkerTasks[i].id==newTask.id){
-				delete currentClickedMarker.allMarkerTasks[i];
+		var fromDeleteMarker = null;
+		for(var marker in markers){
+			if(markers[marker].position.lat() == newTask.latitude && markers[marker].position.lng() == newTask.longitude){
+				fromDeleteMarker = markers[marker];
 				break;
 			}
-
+		}
+		if(fromDeleteMarker!=null){
+			for(var taskId in fromDeleteMarker.allMarkerTasks)
+				if(fromDeleteMarker.allMarkerTasks[taskId].id==newTask.id){
+					delete fromDeleteMarker.allMarkerTasks[taskId];
+					break;
+				}	
+		}
+		else{
+			for(var taskId in nonLocationTasks)
+				if(nonLocationTasks[taskId].id==newTask.id){
+					delete nonLocationTasks[taskId];
+					break;
+				}
+		}
 	});
 };
 var modifyTaskIcon = function(){
@@ -151,5 +170,6 @@ var modifyTaskIcon = function(){
 	$(currentClickedIcon).addClass('todo-icon ' + chooseIcon);
 	if(collapsed==false)
 		$(currentClickedIcon).addClass('collapsed-icon');
+	currentClickedTask.icon = chooseIcon;
 	updateElement(currentClickedTask, 'icon', chooseIcon);	
 };

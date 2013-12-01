@@ -21,6 +21,7 @@ var collapsed = null;
 var clicked = null;
 var currentClickedTask = null;
 var colorPatches = [];
+var nonLocationTasks = [];
 var init = function () {
 //	document.addEventListener("deviceready", onDeviceReady, false);
 //    function onDeviceReady() {

@@ -24,30 +24,18 @@ var markTargets = function (name, p, imagePaths, description) {
     id = marker.__gm_id;
     markers[id] = marker;
     google.maps.event.addListener(marker, "click", function(point){
+        $('#main-nav-1').hide();
+        $('#main-nav-2').hide();
+        $('#main-nav-3').show();
         currentClickedMarker = this;
         photos = currentClickedMarker.imagePaths.split(",");
-        reset();
-        if(currentClickedMarker.allMarkerTasks.length==0){
-            loadTasksFromDatabase(currentClickedMarker.position.lat(), currentClickedMarker.position.lng(), function(results){
-                tasks = results;
-                for(var i=0;i<tasks.length;i++){
-                    currentLoadingTask = clone(tasks[i]);
-                    addToHTML(currentLoadingTask);
-                    progress = progress + parseInt(currentLoadingTask.currentProgress);
-                    currentClickedMarker.allMarkerTasks.push(currentLoadingTask);
-                }
-                totalTasks = tasks.length;
-                markTotalProgress(progress, totalTasks);
-            });    
+        reset();   
+        for(var tasks in currentClickedMarker.allMarkerTasks){
+            addToHTML(currentClickedMarker.allMarkerTasks[tasks]);
+            progress = progress + parseInt(currentClickedMarker.allMarkerTasks[tasks].currentProgress);
         }
-        else{
-            for(var taskIndex in currentClickedMarker.allMarkerTasks){
-                addToHTML(currentClickedMarker.allMarkerTasks[taskIndex]);
-                progress = progress + parseInt(currentClickedMarker.allMarkerTasks[taskIndex].currentProgress);
-            }
-            totalTasks = currentClickedMarker.allMarkerTasks.length;
-            markTotalProgress(progress, totalTasks);
-        }
+        totalTasks = currentClickedMarker.allMarkerTasks.length;
+        markTotalProgress(progress, totalTasks);
         if(currentClickedMarker.placeName.length!=0)
             document.getElementById("place-name").innerHTML = currentClickedMarker.placeName;
         else
@@ -64,6 +52,7 @@ var markTargets = function (name, p, imagePaths, description) {
         delMarker(currentClickedMarker.__gm_id);
     });
 }
+
 var markTotalProgress = function(progress, totalTasks){
     if(totalTasks!==0)        
         $('#task-done').css('width', progress/totalTasks  + "%");
@@ -90,7 +79,7 @@ function initializeMap()
        mapTypeId: google.maps.MapTypeId.ROADMAP
      });
     google.maps.event.addListener(map, "dblclick", function(event){
-    	for(var m in markers)
+        for(var m in markers)
             if(google.maps.geometry.spherical.computeDistanceBetween (markers[m].position, event.latLng)<=2*radius){
                 alert("Position too close to another position.");
                 return;
@@ -109,10 +98,10 @@ function initializeMap()
     });
     
     var db = window.openDatabase("test", "1.0", "Test DB", 1000000);
-	if (db === null) {
-	      alert("Database could not be opened.");
-	      return;
-	}
+    if (db === null) {
+          alert("Database could not be opened.");
+          return;
+    }
     initializeDatabase(db);
     init();
     // clearDatabase();
@@ -138,11 +127,36 @@ function initializeMap()
     });
 
     loadPositionsFromDatabase(function(results){
-    	for(var i=0;i<results.length;i++){
-    		currentLoadingMarkerPosition = clone(results[i]);
-    		markTargets(currentLoadingMarkerPosition.placeName, new google.maps.LatLng(currentLoadingMarkerPosition.latitude, currentLoadingMarkerPosition.longitude),currentLoadingMarkerPosition.imagePaths, currentLoadingMarkerPosition.placeDescription);
-    	}
+        loadNonLocationTasks();
+        $('#main-nav-2').show();
+        $('#main-nav-1').hide();
+        $('#main-nav-3').hide();
+        for(var i=0;i<results.length;i++){
+            currentLoadingMarkerPosition = clone(results[i]);
+            markTargets(currentLoadingMarkerPosition.placeName, new google.maps.LatLng(currentLoadingMarkerPosition.latitude, currentLoadingMarkerPosition.longitude),currentLoadingMarkerPosition.imagePaths, currentLoadingMarkerPosition.placeDescription);
+        }
+        for(var marker in markers)
+            loadTasks(markers[marker]);
     });
+    
+}
+var loadNonLocationTasks = function(){
+    loadTasksFromDatabase(undefined, undefined, function(results){
+        tasks = results;
+        for(var i=0;i<tasks.length;i++){
+            nonLocationTasks.push(clone(tasks[i]));
+            addToHTML(nonLocationTasks[i]);
+        }
+    });
+}
+var loadTasks = function(currentMarker){
+    loadTasksFromDatabase(currentMarker.position.lat(), currentMarker.position.lng(), function(results){
+        tasks = results;
+        for(var i=0;i<tasks.length;i++){
+            currentMarker.allMarkerTasks.push(clone(tasks[i]));
+            addToHTML(currentMarker.allMarkerTasks[i]);
+        }
+    })
 }
 
 function locError(error) {
@@ -151,7 +165,7 @@ function locError(error) {
 }
 
 function setCurrentPosition(pos) {
-	var image = "images/current_position_marker.png";
+    var image = "images/current_position_marker.png";
     currentPositionMarker = new google.maps.Marker({
         map: map,
         position: new google.maps.LatLng(
@@ -168,14 +182,14 @@ function setCurrentPosition(pos) {
 }
 
 var displayAndWatch = function(position) {
-	// set current position
+    // set current position
     setCurrentPosition(position);
     // watch position
     watchCurrentPosition();
 }
 var positionTimer=null;
 var watchCurrentPosition = function(){
-	positionTimer = navigator.geolocation.watchPosition(
+    positionTimer = navigator.geolocation.watchPosition(
         function (position) {
             setMarkerPosition(
                 currentPositionMarker,
@@ -218,7 +232,7 @@ $(document).ready(function() {
 $(window).resize(function(){
     $('#map-canvas').css('height', $(window).height() - $('div.ui-navbar.ui-mini').height()-35-$('div.ui-input-search.ui-shadow-inset.ui-btn-corner-all.ui-btn-shadow.ui-icon-searchfield.ui-body-c').height());
     $('#maincontent').css('height', $(window).height() - parseInt($('#main-header').css('height'))-3- parseInt($('#footer').css('height')));
-    $('#set-location-content').css('height', $(window).height() - parseInt($("#set-location-header").css('height')) - parseInt($("#set-location-footer").css('height')));
+    $('#set-location-content').css('height', $(window).height() - parseInt($("#set-location-header").css('height')) - parseInt($("#set-location-footer").css('height')))
 });
 $(document).on('pagechange', function(){
     $('#maincontent').css('height', $(window).height() - parseInt($('#main-header').css('height'))-3- parseInt($('#footer').css('height')));
@@ -264,37 +278,65 @@ var imageAppControlReplyCB = {
 };
 function deleteImage(){
     if(photos.length!=0){
-    	photos.splice(currentImageIndex, 1);
-    	if(currentImageIndex>0&&currentImageIndex==photos.length)
-    		currentImageIndex = (currentImageIndex+1)%(photos.length+1);
-    	updateLocationData(currentClickedMarker.position.lat(), currentClickedMarker.position.lng(), "imagePaths", photos);
+        photos.splice(currentImageIndex, 1);
+        if(currentImageIndex>0&&currentImageIndex==photos.length)
+            currentImageIndex = (currentImageIndex+1)%(photos.length+1);
+        updateLocationData(currentClickedMarker.position.lat(), currentClickedMarker.position.lng(), "imagePaths", photos);
     }
     if(photos.length==0)
         $('#image-location').attr('src', 'images/icons/108.png');
     else
-    	$('#image-location').attr('src', photos[currentImageIndex]);    
+        $('#image-location').attr('src', photos[currentImageIndex]);    
     $('#error-message').hide();
     currentClickedMarker.imagePaths = photos;
 }
 function forward(){
-	if(photos.length>1){
-		currentImageIndex = (currentImageIndex + 1)%photos.length;
-	    $('#image-location').attr('src', photos[currentImageIndex]);
-	    $('#error-message').hide();
-	}
+    if(photos.length>1){
+        currentImageIndex = (currentImageIndex + 1)%photos.length;
+        $('#image-location').attr('src', photos[currentImageIndex]);
+        $('#error-message').hide();
+    }
 }
 function backward(){
-	if(photos.length>1){
-		if(currentImageIndex>0)
-	    	currentImageIndex = currentImageIndex-1;
-	    else if(currentImageIndex==0)
-	    	currentImageIndex = photos.length - 1;
-	    $('#image-location').attr('src', photos[currentImageIndex]);
-		$('#error-message').hide();
-	}
+    if(photos.length>1){
+        if(currentImageIndex>0)
+            currentImageIndex = currentImageIndex-1;
+        else if(currentImageIndex==0)
+            currentImageIndex = photos.length - 1;
+        $('#image-location').attr('src', photos[currentImageIndex]);
+        $('#error-message').hide();
+    }
 }
 function onImageNotFound(){
-	$('#image-location').attr('src', 'images/icons/55.png');
-	document.getElementById('error-message').innerHTML = photos[currentImageIndex] + ' not found!!!';
-	$('#error-message').show();
+    $('#image-location').attr('src', 'images/icons/55.png');
+    document.getElementById('error-message').innerHTML = photos[currentImageIndex] + ' not found!!!';
+    $('#error-message').show();
+}
+function loadAllTasks(mode){
+    reset();
+    totalTasks = nonLocationTasks.length;
+    for(var taskIndex in nonLocationTasks){
+        addToHTML(nonLocationTasks[taskIndex]);
+        progress = progress + parseInt(nonLocationTasks[taskIndex].currentProgress);
+    }
+    if(mode==true){
+        for(var marker in markers){
+            for(var taskIndex in markers[marker].allMarkerTasks){
+                addToHTML(markers[marker].allMarkerTasks[taskIndex]);
+                progress = progress + parseInt(markers[marker].allMarkerTasks[taskIndex].currentProgress);
+            }
+            totalTasks = totalTasks + markers[marker].allMarkerTasks.length;
+        }    
+        $('#main-nav-1').hide();
+        $('#main-nav-2').show();
+        $('#main-nav-3').hide();
+    }
+    else{
+        $('#main-nav-2').hide();
+        $('#main-nav-1').show();
+        $('#main-nav-3').hide();
+    }
+    markTotalProgress(progress, totalTasks);
+    $.mobile.changePage("#main", {
+    });
 }
