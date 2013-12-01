@@ -17,10 +17,6 @@ var currentClickedTitle = null;
 var modifiedColor = null;
 var currentClickedDetail = null;
 var currentClickedUndoneTask = null;
-var tasks=[];
-var allTasks=[];
-var currentLatitude;
-var currentLongitude;
 var collapsed = null;
 var clicked = null;
 var currentClickedTask = null;
@@ -233,7 +229,6 @@ function clone(obj) {
 };
 var reset = function(){
 	$('#to ul').empty();
-	allTasks = [];
 	chooseIcon = null;
 	newTaskIcon = null;
 	currentClickedIcon = null;
@@ -252,10 +247,6 @@ var reset = function(){
 	currentClickedDetail = null;
 	currentClickedUndoneTask = null;
 	collapsed=null;
-	tasks=[];
-	allTasks=[];
-	// currentLatitude = null;
-	// currentLongitude = null;
 }
 function limitToCharacters(element,limit,evt){
 	if(element.innerHTML.length>limit){

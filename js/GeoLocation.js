@@ -20,29 +20,34 @@ var markTargets = function (name, p, imagePaths, description) {
     marker.placeDescription = description;
     marker.imagePaths = imagePaths;
     marker.visited = false;
+    marker.allMarkerTasks = [];
     id = marker.__gm_id;
     markers[id] = marker;
     google.maps.event.addListener(marker, "click", function(point){
-        currentLatitude = this.position.lat();
-        currentLongitude = this.position.lng();
-    	loadTasksFromDatabase(currentLatitude, currentLongitude, function(results){
-    		photos = marker.imagePaths.split(",");
-            reset();
-            tasks = results;
-          	for(var i=0;i<tasks.length;i++){
-                currentLoadingTask = clone(tasks[i]);
-          		addToHTML(currentLoadingTask);
-          		progress = progress + parseInt(currentLoadingTask.currentProgress);
-          		allTasks.push(currentLoadingTask)
-          	}
-            console.log(allTasks);
-      	    totalTasks=tasks.length;
-          	if(totalTasks!==0)   	  
-                $('#task-done').css('width', progress/totalTasks  + "%");
-          	else
-                $('#task-done').css('width',0+ "%");              
-        });
         currentClickedMarker = this;
+        photos = currentClickedMarker.imagePaths.split(",");
+        reset();
+        if(currentClickedMarker.allMarkerTasks.length==0){
+            loadTasksFromDatabase(currentClickedMarker.position.lat(), currentClickedMarker.position.lng(), function(results){
+                tasks = results;
+                for(var i=0;i<tasks.length;i++){
+                    currentLoadingTask = clone(tasks[i]);
+                    addToHTML(currentLoadingTask);
+                    progress = progress + parseInt(currentLoadingTask.currentProgress);
+                    currentClickedMarker.allMarkerTasks.push(currentLoadingTask);
+                }
+                totalTasks = tasks.length;
+                markTotalProgress(progress, totalTasks);
+            });    
+        }
+        else{
+            for(var taskIndex in currentClickedMarker.allMarkerTasks){
+                addToHTML(currentClickedMarker.allMarkerTasks[taskIndex]);
+                progress = progress + parseInt(currentClickedMarker.allMarkerTasks[taskIndex].currentProgress);
+            }
+            totalTasks = currentClickedMarker.allMarkerTasks.length;
+            markTotalProgress(progress, totalTasks);
+        }
         if(currentClickedMarker.placeName.length!=0)
             document.getElementById("place-name").innerHTML = currentClickedMarker.placeName;
         else
@@ -59,7 +64,12 @@ var markTargets = function (name, p, imagePaths, description) {
         delMarker(currentClickedMarker.__gm_id);
     });
 }
-
+var markTotalProgress = function(progress, totalTasks){
+    if(totalTasks!==0)        
+        $('#task-done').css('width', progress/totalTasks  + "%");
+    else
+        $('#task-done').css('width',0+ "%");
+}
 var delMarker = function (id) {
     marker = markers[id]; 
     marker.setMap(null);

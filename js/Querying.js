@@ -8,8 +8,8 @@ var addAnItemToList = function(){
 		newTask.icon = 'fui-new';
 	else
 		newTask.icon = newTaskIcon;
-	newTask.latitude = currentLatitude;
-	newTask.longitude = currentLongitude;
+	newTask.latitude = currentClickedMarker.position.lat();
+	newTask.longitude = currentClickedMarker.position.lng();
 	newTask.currentProgress = 0;
 	newTask.undoneColor = newTaskUnDoneColor;
 	newTask.detailColor = newTaskDetailColor;
@@ -23,7 +23,7 @@ var addAnItemToList = function(){
 		newTask.detail = 'Detail';
 	addToHTML(newTask);
 	addTaskToDatabase(newTask);
-	allTasks.push(newTask);
+	currentClickedMarker.allMarkerTasks.push(newTask);
 };
 var addToHTML = function(newTask){
 	var list = $("#to ul");
@@ -137,6 +137,12 @@ var addToHTML = function(newTask){
 		else
 			$('#task-done').css('width', 0 + "%");
 		deleteFromDatabase(newTask.id);
+		for(var i=0;i<currentClickedMarker.allMarkerTasks.length;i++)
+			if(currentClickedMarker.allMarkerTasks[i].id==newTask.id){
+				delete currentClickedMarker.allMarkerTasks[i];
+				break;
+			}
+
 	});
 };
 var modifyTaskIcon = function(){
