@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head> 
+  <title>Page Title</title> 
+  <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+  <link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css" /> 
+  <link rel="stylesheet" href="css/flat-ui.css" /> 
+  <link rel="stylesheet" href="css/style.css" /> 
+ </head> 
+ <body> 
+  <div data-role="page" id="map"> 
+   <div data-role="header" data-theme="default"> 
+    <div data-role="navbar" data-grid="c"> 
+     <ul> 
+      <li><a href="index.html" class="ui-btn-active ui-state-persist"><img src="images/icons/489.png" class="nav-buttons" /></a></li> 
+      <li><a href="#main"><img src="images/icons/228.png" class="nav-buttons" /></a></li> 
+      <li><a href="#locations" onclick="showAllLocations();"><img src="images/icons/477.png" class="nav-buttons" /></a></li> 
+      <li><a href="#add-task"><img src="images/icons/189.png" class="nav-buttons" /></a></li> 
+     </ul> 
+    </div> 
+   </div> 
+   <div id="map-content"> 
+    <input id="search-place" class="todo-search-field" type="search" placeholder="Search" /> 
+    <div id="map-canvas"></div> 
+   </div> 
+  </div> 
+  <!-- 	<div datat-role="page" id="locations">
+		<div data-role="navbar" data-grid="c">
+				<ul>
+					<li><a href="index.html"><img src="images/icons/489.png" class="nav-buttons"/></a></li>
+					<li><a href="#main"><img src="images/icons/228.png" class="nav-buttons"/></a></li>
+					<li><a href="#locations" class="ui-btn-active ui-state-persist"><img src="images/icons/472.png" class="nav-buttons"/></a></li>
+					<li><a href="#add-task"><img src="images/icons/189.png" class="nav-buttons"/></a></li>
+				</ul>
+		</div>
+		<div id="location-list">
+			<ul>
+			</ul>
+		</div>
+
+	</div> --> 
+  <div data-role="page" id="main" data-close-btn="none"> 
+   <div data-role="header" id="main-header"> 
+    <div data-role="navbar" data-grid="c"> 
+     <ul> 
+      <li><a href="index.html"><img src="images/icons/489.png" class="nav-buttons" /></a></li> 
+      <!-- <li><a id="link-main" class="ui-btn-active ui-state-persist"><img src="images/icons/228.png" class="nav-buttons"/></a></li>
+					<li><a id="link-location"><img src="images/icons/472.png" class="nav-buttons"/></a></li> --> 
+      <li><a href="#main" class="ui-btn-active ui-state-persist"><img src="images/icons/228.png" class="nav-buttons" /></a></li> 
+      <li><a href="#set-location"><img src="images/icons/472.png" class="nav-buttons" /></a></li> 
+      <li><a href="#add-task"><img src="images/icons/189.png" class="nav-buttons" /></a></li> 
+     </ul> 
+    </div> 
+   </div> 
+   <div data-role="content" id="maincontent"> 
+    <div class="todo mrm" id="to"> 
+     <ul> 
+     </ul> 
+    </div> 
+    <!-- div id="set-location" style="background-color:black;">
+					<image src="images/map-pin.png" style="height:auto;width:auto;max-width:15%;float:left;"/>
+					<div style="width:60%;float:right;padding:2%;margin-top:5%;">
+						<h3 style="color:white;">Name</h3>
+						<p contenteditable id="place-name"></p>
+					</div>
+					</br>
+				</div> --> 
+   </div> 
+   <div data-role="footer" id="footer"> 
+    <a id="change-view" data-icon="arrow-r"> 
+     <div id="foot-bar-container"> 
+      <div class="color-patches color-panel"></div> 
+      <div id="progress-bar"> 
+       <div id="task-done"></div> 
+      </div> 
+     </div> </a> 
+   </div> 
+  </div> 
+  <div data-role="dialog" id="add-task"> 
+   <div data-theme="a" data-role="header"> 
+    <h1><span>Undone</span></h1> 
+   </div> 
+   <div data-role="content"> 
+    <div id="undone-color" style="padding: 5%;"> 
+     <div class="color-patches add"> 
+     </div> 
+     <input type="text" id="title" placeholder="Title" maxlength="50" /> 
+     <input type="text" id="detail" placeholder="Detail" maxlength="200" /> 
+     <div id="icons" class="center large-icons pad-icons"> 
+     </div> 
+     <a href="#main" data-rel="page" data-transition="slidedown" type="submit" onclick="addAnItemToList();">Add</a> 
+    </div> 
+   </div> 
+   <div data-role="footer" data-position="fixed"> 
+    <h1></h1> 
+   </div> 
+  </div> 
+  <div data-role="dialog" id="modify-icon"> 
+   <div data-theme="a" data-role="header"> 
+    <h1>Icons</h1> 
+   </div> 
+   <div data-role="content"> 
+    <div id="link-icons" class="large-icons center pad-icons"> 
+    </div> 
+   </div> 
+   <div data-theme="a" data-role="footer"> 
+    <h1></h1> 
+   </div> 
+  </div> 
+  <div data-role="page" id="set-location" data-close-btn="none"> 
+   <div data-role="header" id="set-location-header"> 
+    <div data-role="navbar" data-grid="c"> 
+     <ul> 
+      <li><a href="index.html"><img src="images/icons/489.png" class="nav-buttons" /></a></li> 
+      <li><a href="#main"><img src="images/icons/228.png" class="nav-buttons" /></a></li> 
+      <li><a href="#set-location" class="ui-btn-active ui-state-persist"><img src="images/icons/472.png" class="nav-buttons" /></a></li> 
+      <li><a id="deleteMarker"><img src="images/icons/474.png" class="nav-buttons" /></a></li> 
+     </ul> 
+    </div> 
+   </div> 
+   <div data-role="content" id="set-location-content"> 
+    <h1 contenteditable="" onkeypress="return limitToCharacters(this, 45);" id="place-name"></h1> 
+    <div id="image-container"> 
+     <img src="" onerror="onImageNotFound();" id="image-location" /> 
+     <div id="error-message"> 
+     </div> 
+    </div> 
+    <p contenteditable="" onkeypress="return limitToCharacters(this, 200);" id="place-description"></p> 
+   </div> 
+   <div data-role="footer" id="set-location-footer" style="text-align:center;"> 
+    <div data-role="navbar" data-grid="d"> 
+     <ul> 
+      <li><a onclick="addImage(true);"><img src="images/icons/108.png" class="nav-buttons" /></a></li> 
+      <li><a onclick="addImage(false);"><img src="images/icons/301.png" class="nav-buttons" /></a></li> 
+      <li><a onclick="forward();"><img src="images/icons/501.png" class="nav-buttons" /></a></li> 
+      <li><a onclick="backward();"><img src="images/icons/502.png" class="nav-buttons" /></a></li> 
+      <li><a onclick="deleteImage();"><img src="images/icons/109.png" class="nav-buttons" /></a></li> 
+     </ul> 
+    </div> 
+   </div> 
+  </div> 
+  <script src="js/jquery-1.9.1.min.js"></script> 
+  <script src="js/jquery.mobile-1.3.2.min.js"></script> 
+  <script src="cordova-2.9.0.js"></script> 
+  <script src="js/main.js"></script> 
+  <script src="js/Querying.js"></script> 
+  <script src="js/Database.js"></script> 
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK-dfeJmwu-BOPJmQISiC9GqMXEeb1qOw&amp;sensor=false&amp;libraries=geometry,places"></script> 
+  <script src="js/GeoLocation.js"></script> 
+  <script type="text/javascript" src="engine1//wowslider.js"></script> 
+  <script type="text/javascript" src="engine1//script.js"></script>  
+ </body>
+</html>

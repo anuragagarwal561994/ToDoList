@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" version="1.0.0" height="1280" width="720" viewmodes="fullscreen">
+    <access origin="*" subdomains="true"></access>
+    <access origin="https://googleapis.com" subdomains="true"></access>
+    <access origin="https://gstatic.com" subdomains="true"></access>
+    <access origin="https://google.com" subdomains="true"></access>
+    <tizen:application id="CN557NXN4v.RubiksCube" package="CN557NXN4v" required_version="1.0"/>
+    <author email="anurag.agarwal561994@gmail.com">Anurag Agarwal</author>
+    <content src="index.html"/>
+    <description>MemoryNotifier is the app that helps you to keep track of your to do items according to your location.</description>
+    <feature name="http://tizen.org/feature/screen.size.normal"/>
+    <feature name="http://tizen.org/api/filesystem "/>
+    <icon src="icon.png"/>
+    <name>MemoryNotifier</name>
+    <tizen:privilege name="http://tizen.org/privilege/unlimitedstorage"/>
+    <tizen:privilege name="http://tizen.org/privilege/setting"/>
+    <tizen:privilege name="http://tizen.org/privilege/notification"/>
+    <tizen:privilege name="http://tizen.org/privilege/system"/>
+    <tizen:privilege name="http://tizen.org/privilege/content"/>
+    <tizen:privilege name="http://tizen.org/privilege/location"/>
+    <tizen:privilege name="http://tizen.org/privilege/filesystem.read"/>
+    <tizen:privilege name="http://tizen.org/privilege/filesystem.write"/>
+    <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
+    <tizen:setting screen-orientation="portrait" context-menu="enable" background-support="enable" encryption="disable" install-location="auto" hwkey-event="enable"/>
+         
+	 
+</widget>
