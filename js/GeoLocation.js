@@ -73,7 +73,6 @@ var delMarker = function (id) {
 
 function initializeMap()
 {
-    abcd
     map = new google.maps.Map(document.getElementById('map-canvas'), {
        disableDoubleClickZoom: true,
        zoom: 13,
@@ -106,11 +105,7 @@ function initializeMap()
 	}
     initializeDatabase(db);
     init();
-//    clearDatabase();
-    countTasks(function(results){
-        currentId = results;
-        console.log(currentId);
-    });
+    // clearDatabase();
     var input = (document.getElementById('search-place'));
     var searchBox = new google.maps.places.SearchBox(input); 
     google.maps.event.addListener(searchBox, 'places_changed', function() {

@@ -19,7 +19,6 @@ var currentClickedDetail = null;
 var currentClickedUndoneTask = null;
 var tasks=[];
 var allTasks=[];
-var currentId=0; 
 var currentLatitude;
 var currentLongitude;
 var collapsed = null;

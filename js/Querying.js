@@ -1,7 +1,8 @@
 var addAnItemToList = function(){
 	newTask = new Object();
 	totalTasks++;
-	newTask.id = ++currentId;
+	var currentTime = new Date()
+	newTask.id = currentTime.getTime();
 	console.log(newTask.id);
 	if(newTaskIcon === null)
 		newTask.icon = 'fui-new';
@@ -9,7 +10,6 @@ var addAnItemToList = function(){
 		newTask.icon = newTaskIcon;
 	newTask.latitude = currentLatitude;
 	newTask.longitude = currentLongitude;
-	newTask.index = totalTasks;
 	newTask.currentProgress = 0;
 	newTask.undoneColor = newTaskUnDoneColor;
 	newTask.detailColor = newTaskDetailColor;
@@ -129,7 +129,6 @@ var addToHTML = function(newTask){
 	});
 
 	$('#to ul li:last-child .delete-button').click(function(event){
-		alert('hi');
 		$($(this).parent()).remove();
 		progress=progress - newTask.currentProgress;
 		totalTasks--;

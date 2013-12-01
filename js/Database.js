@@ -40,14 +40,6 @@
                      function(tx,err) { alert("Error creating table LOCATIONS: "+err.message); });
     	}, errorCB);
     }  
-
-    var countTasks = function(callback){
-        currentDatabase.transaction(function(tx){
-            tx.executeSql('SELECT MAX(id) AS max FROM TODO',[],
-                  function(tx,results) { callback(results.rows.item(0).max);},
-                  function(tx,err) { alert("Error dropping the database: "+err.message); });
-        }, errorCB);
-    }
     
     var addMarkerPositionToDatabase = function(placeName, newMarker, imagePaths, placeDescription){
     	currentDatabase.transaction(function(tx){
