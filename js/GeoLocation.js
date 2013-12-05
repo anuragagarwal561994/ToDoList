@@ -24,33 +24,36 @@ var markTargets = function (name, p, imagePaths, description) {
     id = marker.__gm_id;
     markers[id] = marker;
     google.maps.event.addListener(marker, "click", function(point){
-        reset();
-        $('#main-nav-1').hide();
-        $('#main-nav-2').hide();
-        $('#main-nav-3').show();
-        currentClickedMarker = this;
-        photos = currentClickedMarker.imagePaths.split(",");   
-        for(var tasks in currentClickedMarker.allMarkerTasks){
-            addToHTML(currentClickedMarker.allMarkerTasks[tasks]);
-            progress = progress + parseInt(currentClickedMarker.allMarkerTasks[tasks].currentProgress);
-        }
-        totalTasks = currentClickedMarker.allMarkerTasks.length;
-        markTotalProgress(progress, totalTasks);
-        if(currentClickedMarker.placeName.length!=0)
-            document.getElementById("place-name").innerHTML = currentClickedMarker.placeName;
-        else
-            document.getElementById("place-name").innerHTML = "Place Name";
-        if(currentClickedMarker.placeDescription.length!=0)
-            document.getElementById("place-description").innerHTML = currentClickedMarker.placeDescription;
-        else
-            document.getElementById("place-description").innerHTML = "Place Description";
-        $.mobile.changePage("#main", {
-        })
+        showTasksForMarker(this);
      });
     
     $("#deleteMarker").click(function(){
         delMarker(currentClickedMarker.__gm_id);
     });
+}
+var showTasksForMarker = function(marker){
+    reset();
+    $('#main-nav-1').hide();
+    $('#main-nav-2').hide();
+    $('#main-nav-3').show();
+    currentClickedMarker = marker;
+    photos = currentClickedMarker.imagePaths.split(",");   
+    for(var tasks in currentClickedMarker.allMarkerTasks){
+        addToHTML(currentClickedMarker.allMarkerTasks[tasks]);
+        progress = progress + parseInt(currentClickedMarker.allMarkerTasks[tasks].currentProgress);
+    }
+    totalTasks = currentClickedMarker.allMarkerTasks.length;
+    markTotalProgress(progress, totalTasks);
+    if(currentClickedMarker.placeName.length!=0)
+        document.getElementById("place-name").innerHTML = currentClickedMarker.placeName;
+    else
+        document.getElementById("place-name").innerHTML = "Place Name";
+    if(currentClickedMarker.placeDescription.length!=0)
+        document.getElementById("place-description").innerHTML = currentClickedMarker.placeDescription;
+    else
+        document.getElementById("place-description").innerHTML = "Place Description";
+    $.mobile.changePage("#main", {
+    })
 }
 
 var markTotalProgress = function(progress, totalTasks){
