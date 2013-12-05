@@ -270,7 +270,7 @@ var imageAppControlReplyCB = {
                     photos.push(data[i].value[j]);
                 $('#error-message').hide();
                 updateLocationData(currentClickedMarker.position.lat(), currentClickedMarker.position.lng(), "imagePaths", photos);
-                currentClickedMarker.imagePaths = photos;
+                currentClickedMarker.imagePaths = photos.join();
             }
         }
     },
@@ -290,7 +290,7 @@ function deleteImage(){
     else
         $('#image-location').attr('src', photos[currentImageIndex]);    
     $('#error-message').hide();
-    currentClickedMarker.imagePaths = photos;
+    currentClickedMarker.imagePaths = photos.join();
 }
 function forward(){
     if(photos.length>1){
