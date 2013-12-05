@@ -248,6 +248,7 @@ var reset = function(){
 	currentClickedDetail = null;
 	currentClickedUndoneTask = null;
 	collapsed=null;
+	currentClickedMarker = null;
 }
 function limitToCharacters(element,limit,evt){
 	if(element.innerHTML.length>limit){

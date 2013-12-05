@@ -24,12 +24,12 @@ var markTargets = function (name, p, imagePaths, description) {
     id = marker.__gm_id;
     markers[id] = marker;
     google.maps.event.addListener(marker, "click", function(point){
+        reset();
         $('#main-nav-1').hide();
         $('#main-nav-2').hide();
         $('#main-nav-3').show();
         currentClickedMarker = this;
-        photos = currentClickedMarker.imagePaths.split(",");
-        reset();   
+        photos = currentClickedMarker.imagePaths.split(",");   
         for(var tasks in currentClickedMarker.allMarkerTasks){
             addToHTML(currentClickedMarker.allMarkerTasks[tasks]);
             progress = progress + parseInt(currentClickedMarker.allMarkerTasks[tasks].currentProgress);
@@ -223,9 +223,11 @@ function initLocationProcedure() {
         alert("Your browser does not support the Geolocation API");
     }
 }
-
+$('#main-nav-1').hide();
+$('#main-nav-2').show();
+$('#main-nav-3').hide();
 $(document).ready(function() {
-    initLocationProcedure();
+    initLocationProcedure();    
     $('#map-canvas').css('height', $(window).height() - $('div.ui-navbar.ui-mini').height()-35-$('div.ui-input-search.ui-shadow-inset.ui-btn-corner-all.ui-btn-shadow.ui-icon-searchfield.ui-body-c').height());
 });
 
