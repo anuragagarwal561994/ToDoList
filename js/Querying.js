@@ -149,16 +149,16 @@ var addToHTML = function(newTask){
 			}
 		}
 		if(fromDeleteMarker!=null){
-			for(var taskId in fromDeleteMarker.allMarkerTasks)
-				if(fromDeleteMarker.allMarkerTasks[taskId].id==newTask.id){
-					delete fromDeleteMarker.allMarkerTasks[taskId];
+			for(var i=0;i<fromDeleteMarker.allMarkerTasks.length;i++)
+				if(fromDeleteMarker.allMarkerTasks[i].id==newTask.id){
+					fromDeleteMarker.allMarkerTasks.splice(i,1);
 					break;
 				}	
 		}
 		else{
-			for(var taskId in nonLocationTasks)
-				if(nonLocationTasks[taskId].id==newTask.id){
-					delete nonLocationTasks[taskId];
+			for(var i=0;i<nonLocationTasks.length;i++)
+				if(nonLocationTasks[i].id==newTask.id){
+					nonLocationTasks.splice(i,1);
 					break;
 				}
 		}
