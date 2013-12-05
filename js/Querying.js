@@ -23,6 +23,7 @@ var addAnItemToList = function(){
 	if(currentClickedMarker!=null){
 		newTask.latitude = currentClickedMarker.position.lat();
 		newTask.longitude = currentClickedMarker.position.lng();
+		document.getElementById(newTask.latitude+"_"+newTask.longitude).getElementsByClassName('location-total-tasks')[0].innerHTML=currentClickedMarker.allMarkerTasks.length+1;
 		currentClickedMarker.allMarkerTasks.push(newTask);
 	}
 	else
@@ -55,6 +56,12 @@ var addToHTML = function(newTask){
 		currentLi.css("background-color", "#000");
 	}
 	$('.task-progress').last().change(function(){
+		if(newTask.latitude!=null)
+			if(newTask.currentProgress==100&&$(this).val()<100){
+				var currentMarker = returnMarker(newTask);
+				currentMarker.completedTasksCount--;
+				document.getElementById(newTask.latitude+"_"+newTask.longitude).getElementsByClassName('location-completed-tasks')[0].innerHTML=currentMarker.completedTasksCount;
+			}
 		progress=progress - parseInt(newTask.currentProgress);
 		newTask.currentProgress = parseInt($(this).val());
 		progress += newTask.currentProgress;
@@ -64,6 +71,11 @@ var addToHTML = function(newTask){
   	  	else
   		  $('#task-done').css('width',0+ "%");
 		if(newTask.currentProgress==100){
+			if(newTask.latitude!=null){
+				var currentMarker = returnMarker(newTask);
+				currentMarker.completedTasksCount++;
+				document.getElementById(newTask.latitude+"_"+newTask.longitude).getElementsByClassName('location-completed-tasks')[0].innerHTML=currentMarker.completedTasksCount;
+			}
 			currentLi.addClass("todo-done");
 			currentLi.css("background-color", "#000");	
 		}
@@ -141,19 +153,18 @@ var addToHTML = function(newTask){
 		else
 			$('#task-done').css('width', 0 + "%");
 		deleteFromDatabase(newTask.id);
-		var fromDeleteMarker = null;
-		for(var marker in markers){
-			if(markers[marker].position.lat() == newTask.latitude && markers[marker].position.lng() == newTask.longitude){
-				fromDeleteMarker = markers[marker];
-				break;
-			}
-		}
+		var fromDeleteMarker = returnMarker(newTask);
 		if(fromDeleteMarker!=null){
 			for(var i=0;i<fromDeleteMarker.allMarkerTasks.length;i++)
 				if(fromDeleteMarker.allMarkerTasks[i].id==newTask.id){
 					fromDeleteMarker.allMarkerTasks.splice(i,1);
 					break;
-				}	
+				}
+			if(newTask.currentProgress==100){
+				fromDeleteMarker.completedTasksCount--;
+				document.getElementById(newTask.latitude+"_"+newTask.longitude).getElementsByClassName('location-completed-tasks')[0].innerHTML=fromDeleteMarker.completedTasksCount;
+			}
+			document.getElementById(newTask.latitude+"_"+newTask.longitude).getElementsByClassName('location-total-tasks')[0].innerHTML=fromDeleteMarker.allMarkerTasks.length;
 		}
 		else{
 			for(var i=0;i<nonLocationTasks.length;i++)
@@ -173,3 +184,8 @@ var modifyTaskIcon = function(){
 	currentClickedTask.icon = chooseIcon;
 	updateElement(currentClickedTask, 'icon', chooseIcon);	
 };
+var returnMarker = function(newTask){
+	for(var marker in markers)
+		if(markers[marker].position.lat() == newTask.latitude && markers[marker].position.lng() == newTask.longitude)
+			return markers[marker];
+}

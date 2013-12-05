@@ -10,24 +10,6 @@
 	<link rel="stylesheet" href="css/style.css" />
 </head> 
 <body> 
-	<!-- <div datat-role="page" id="locations">
-		<div data-role="header" data-theme="default">
-			<div data-role="navbar" data-grid="c">
-				<ul>
-					<li><a href="index.html"><img src="images/icons/489.png" class="nav-buttons"/></a></li>
-					<li><a href="#main"><img src="images/icons/228.png" class="nav-buttons"/></a></li>
-					<li><a href="#locations" class="ui-btn-active ui-state-persist"><img src="images/icons/472.png" class="nav-buttons"/></a></li>
-					<li><a href="#add-task"><img src="images/icons/189.png" class="nav-buttons"/></a></li>
-				</ul>
-			</div>
-		</div>
-		
-		<div id="location-list">
-			<ul>
-			</ul>
-		</div>
-
-	</div> -->
 	<div data-role="page" id="main" data-close-btn="none">		
 		<div data-role="header" id="main-header">
 			<div data-role="navbar" data-grid="c">
@@ -70,7 +52,22 @@
 			</a>			
 		</div>
 	</div>
-
+	<div data-role="page" id="locations">
+		<div data-role="header" data-theme="default"id='locations-header'>
+			<div data-role="navbar" data-grid="c">
+					<ul>
+						<li><a href="#map"><img src="images/icons/489.png" class="nav-buttons"/></a></li>
+						<li><a onclick="loadAllTasks(false);"><img src="images/icons/228.png" class="nav-buttons"/></a></li>
+						<li><a href="#locations" class="ui-btn-active ui-state-persist"><img src="images/icons/477.png" class="nav-buttons"/></a></li>
+						<li><a onclick="loadAllTasks(true);"><img src="images/icons/215.png" class="nav-buttons"/></a></li>
+					</ul>
+			</div>
+		</div>
+		<div data-role="content" id="location-list">
+			<ul>
+			</ul>
+		</div>
+	</div>
 	<div data-role="page" id="map">
 		<div data-role="header" data-theme="default">
 			<div data-role="navbar" data-grid="c">

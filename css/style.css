@@ -281,3 +281,12 @@ div.ui-input-search.ui-shadow-inset.ui-btn-corner-all.ui-btn-shadow.ui-icon-sear
 #error-message{
 	color: #7f8c8d;
 }
+#location-list li{
+	margin: 1%;
+}
+#location-list{
+	overflow: auto;
+}
+.location-place-name{
+	font-size: 2em;	
+}

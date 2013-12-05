@@ -23,6 +23,7 @@ var markTargets = function (name, p, imagePaths, description) {
     marker.allMarkerTasks = [];
     id = marker.__gm_id;
     markers[id] = marker;
+    addLocationToList(marker);
     google.maps.event.addListener(marker, "click", function(point){
         showTasksForMarker(this);
      });
@@ -71,6 +72,7 @@ var delMarker = function (id) {
     console.log('deleting');
     deleteMarkerPositionFromDatabase(marker.position);
     delete markers[id];
+    document.getElementById(marker.position.lat()+"_"+marker.position.lng()).remove();
 }
 
 function initializeMap()
@@ -140,8 +142,35 @@ function initializeMap()
         }
         for(var marker in markers)
             loadTasks(markers[marker]);
+
     });
-    
+}
+var addLocationToList = function(marker){
+    if(marker.placeName.length!=0)
+        placeName = marker.placeName;
+    else
+        placeName = "Undefined";
+    if(marker.placeDescription.length!=0)
+        placeDescription = marker.placeDescription;
+    else
+        placeDescription = "Undefined";
+    $("#location-list ul").append("<li id='"+marker.position.lat()+'_'+marker.position.lng()+"'><span class='location-place-name'>"+placeName+
+    "</span><br><span class='location-place-detail'>"+placeDescription+
+    "</span><br><br>Photos: <span class='location-total-photos'>"+(marker.imagePaths.split(',').length-1)+
+    "</span><br>Total Tasks: <span class='location-total-tasks'>0"+
+    "</span>&#09;Completed Tasks: <span class='location-completed-tasks'>0</span><hr></li>");
+    $('#location-list ul li:last-child').on('swipeleft', function(){
+        showTasksForMarker(marker);
+    });
+    $('#location-list ul li:last-child').on('swiperight', function(){
+        delMarker(marker.__gm_id);
+        $(this).remove();
+    });
+}
+var findMarkerThroughPosition = function(latitude, longitude){
+    for(var marker in markers)
+        if(markers[marker].position.lat()==latitude&&markers[marker].position.lng()==longitude)
+            return markers[marker];
 }
 var loadNonLocationTasks = function(){
     loadTasksFromDatabase(undefined, undefined, function(results){
@@ -155,10 +184,16 @@ var loadNonLocationTasks = function(){
 var loadTasks = function(currentMarker){
     loadTasksFromDatabase(currentMarker.position.lat(), currentMarker.position.lng(), function(results){
         tasks = results;
+        currentMarker.completedTasksCount=0;
         for(var i=0;i<tasks.length;i++){
+            if(tasks[i].currentProgress==100)
+                currentMarker.completedTasksCount++;
             currentMarker.allMarkerTasks.push(clone(tasks[i]));
             addToHTML(currentMarker.allMarkerTasks[i]);
+
         }
+        document.getElementById(currentMarker.position.lat()+"_"+currentMarker.position.lng()).getElementsByClassName('location-total-tasks')[0].innerHTML=tasks.length;
+        document.getElementById(currentMarker.position.lat()+"_"+currentMarker.position.lng()).getElementsByClassName('location-completed-tasks')[0].innerHTML=currentMarker.completedTasksCount;
     })
 }
 
@@ -237,6 +272,7 @@ $(window).resize(function(){
         $('#map-canvas').css('height', $(window).height() - $('div.ui-header.ui-bar-default').height()-35-$('div.ui-input-search.ui-shadow-inset.ui-btn-corner-all.ui-btn-shadow.ui-icon-searchfield.ui-body-c').height());
     $('#maincontent').css('height', $(window).height() - parseInt($('#main-header').css('height'))-3- parseInt($('#footer').css('height')));
     $('#set-location-content').css('height', $(window).height() - parseInt($("#set-location-header").css('height')) - parseInt($("#set-location-footer").css('height')))
+    $('#location-list').css('height', $(window).height()-parseInt($('#locations-header').css('height')));
 });
 $('#map').on('pageshow', function(event){
     $('#map-canvas').css('height', $(window).height() - $('div.ui-header.ui-bar-default').height()-35-$('div.ui-input-search.ui-shadow-inset.ui-btn-corner-all.ui-btn-shadow.ui-icon-searchfield.ui-body-c').height());
@@ -245,6 +281,7 @@ $('#map').on('pageshow', function(event){
 $(document).on('pagechange', function(){
     $('#maincontent').css('height', $(window).height() - parseInt($('#main-header').css('height'))-3- parseInt($('#footer').css('height')));
     $('#set-location-content').css('height', $(window).height() - parseInt($("#set-location-header").css('height')) - parseInt($("#set-location-footer").css('height')));
+    $('#location-list').css('height', $(window).height()-parseInt($('#locations-header').css('height')));
     currentImageIndex = 0;
     if(photos.length==0)
         $('#image-location').attr('src', 'images/icons/108.png');
@@ -277,6 +314,7 @@ var imageAppControlReplyCB = {
                 $('#error-message').hide();
                 updateLocationData(currentClickedMarker.position.lat(), currentClickedMarker.position.lng(), "imagePaths", photos);
                 currentClickedMarker.imagePaths = photos.join();
+                document.getElementById(currentClickedMarker.position.lat()+"_"+currentClickedMarker.position.lng()).getElementsByClassName('location-total-photos')[0].innerHTML=photos.length;
             }
         }
     },
@@ -297,6 +335,7 @@ function deleteImage(){
         $('#image-location').attr('src', photos[currentImageIndex]);    
     $('#error-message').hide();
     currentClickedMarker.imagePaths = photos.join();
+    document.getElementById(currentClickedMarker.position.lat()+"_"+currentClickedMarker.position.lng()).getElementsByClassName('location-total-photos')[0].innerHTML=photos.length;
 }
 function forward(){
     if(photos.length>1){

@@ -60,6 +60,11 @@ var init = function () {
 		      		else
 		      			currentClickedMarker.placeName = el.innerHTML;
 		      		updateLocationData(currentClickedMarker.position.lat(), currentClickedMarker.position.lng(), "placeName", currentClickedMarker.placeName);
+		      		if(currentClickedMarker.placeName!=0)
+		      			document.getElementById(currentClickedMarker.position.lat()+"_"+currentClickedMarker.position.lng()).getElementsByClassName('location-place-name')[0].innerHTML=currentClickedMarker.placeName;
+		      		else
+		      			document.getElementById(currentClickedMarker.position.lat()+"_"+currentClickedMarker.position.lng()).getElementsByClassName('location-place-name')[0].innerHTML="Undefined";
+
 		      	}
 		      	else if(el.nodeName=="P"){
 		      		if(el.innerHTML.length==0){
@@ -69,6 +74,11 @@ var init = function () {
 		      		else
 		      			currentClickedMarker.placeDescription = el.innerHTML;
 		      		updateLocationData(currentClickedMarker.position.lat(), currentClickedMarker.position.lng(), "placeDescription", currentClickedMarker.placeDescription);
+		      		if(currentClickedMarker.placeDescription!=0)
+		      			document.getElementById(currentClickedMarker.position.lat()+"_"+currentClickedMarker.position.lng()).getElementsByClassName('location-place-detail')[0].innerHTML=currentClickedMarker.placeDescription
+		      		else
+		      			document.getElementById(currentClickedMarker.position.lat()+"_"+currentClickedMarker.position.lng()).getElementsByClassName('location-place-detail')[0].innerHTML="Undefined";
+
 		      	}
 		      }
 		      el.blur();
