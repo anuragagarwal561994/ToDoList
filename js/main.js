@@ -257,9 +257,3 @@ function limitToCharacters(element,limit,evt){
 	}
 	return true;
 };
-var showAllLocations = function(){
-	$('#location-list ul').empty();
-	for(var marker in markers)
-		$("#location-list ul").append("<li>"+markers[marker].placeName+"<hr></li>");
-	$("#location-list").trigger("create");
-}
