@@ -1,7 +1,7 @@
 var map,
     currentPositionMarker,
     mapCenter = new google.maps.LatLng(40.700683, -73.925972),
-    markers = [], radius = 1000;
+    markers = new Object(), radius = 1000;
 var currentImageIndex = 0;
 
 var currentClickedMarker = null, currentTitle = null;
