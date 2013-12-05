@@ -29,6 +29,9 @@ var markTargets = function (name, p, imagePaths, description) {
     
     $("#deleteMarker").click(function(){
         delMarker(currentClickedMarker.__gm_id);
+        $.mobile.changePage("#map", function(){
+
+        });
     });
 }
 var showTasksForMarker = function(marker){
@@ -68,9 +71,6 @@ var delMarker = function (id) {
     console.log('deleting');
     deleteMarkerPositionFromDatabase(marker.position);
     delete markers[id];
-    $.mobile.changePage("#map", function(){
-
-    });
 }
 
 function initializeMap()
