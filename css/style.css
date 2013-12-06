@@ -293,3 +293,9 @@ div.ui-input-search.ui-shadow-inset.ui-btn-corner-all.ui-btn-shadow.ui-icon-sear
 .location-place-name{
 	font-size: 2em;	
 }
+div.ui-slider-bg.ui-btn-corner-all{
+	background-color: #16a085;
+}
+div.ui-slider-track.ui-btn-down-c.ui-btn-corner-all.ui-mini{
+	border: 2px solid white;
+}
