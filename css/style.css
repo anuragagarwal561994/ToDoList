@@ -90,6 +90,9 @@ input.todo-search-field {
 /*div#maincontent.ui-content{
 	height: 100px;
 }*/
+#maincontent{
+	width: 100%;
+}
 div#footer.ui-footer.ui-bar-a{
 	/*border: 1px solid red;*/
 }
