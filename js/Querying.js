@@ -56,7 +56,7 @@ var addToHTML = function(newTask){
 		currentLi.css("background-color", "#000");
 	}
 	$('.task-progress').last().change(function(){
-		if(newTask.latitude!=null)
+		if(newTask.latitude!=='undefined')
 			if(newTask.currentProgress==100&&$(this).val()<100){
 				var currentMarker = returnMarker(newTask);
 				currentMarker.completedTasksCount--;
@@ -71,7 +71,7 @@ var addToHTML = function(newTask){
   	  	else
   		  $('#task-done').css('width',0+ "%");
 		if(newTask.currentProgress==100){
-			if(newTask.latitude!=null){
+			if(newTask.latitude!=='undefined'){
 				var currentMarker = returnMarker(newTask);
 				currentMarker.completedTasksCount++;
 				document.getElementById(newTask.latitude+"_"+newTask.longitude).getElementsByClassName('location-completed-tasks')[0].innerHTML=currentMarker.completedTasksCount;
