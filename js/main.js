@@ -17,6 +17,10 @@ var currentClickedTask = null;
 var colorPatches = [];
 var nonLocationTasks = [];
 var init = function () {
+		document.addEventListener('tizenhwkey', function(e) {
+        	if(e.keyName == "back")
+            tizen.application.getCurrentApplication().exit();
+    	});
 		document.addEventListener('keydown', function (event) {
 		  var el = event.target;
 		  if (el.nodeName != 'INPUT' && el.nodeName != 'TEXTAREA') {

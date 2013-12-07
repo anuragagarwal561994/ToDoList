@@ -7,13 +7,11 @@
     <tizen:application id="CN557NXN4v.RubiksCube" package="CN557NXN4v" required_version="1.0"/>
     <author email="anurag.agarwal561994@gmail.com">Anurag Agarwal</author>
     <content src="index.html"/>
-    <description>MemoryNotifier is the app that helps you to keep track of your to do items according to your location.</description>
+    <description>MemoryNotifier is the app that helps you to keep track of your to do items according to your location. It can also store locations particular to a location.</description>
     <feature name="http://tizen.org/feature/screen.size.normal"/>
     <feature name="http://tizen.org/api/filesystem "/>
     <icon src="icon.png"/>
     <name>MemoryNotifier</name>
-    <tizen:privilege name="http://tizen.org/privilege/unlimitedstorage"/>
-    <tizen:privilege name="http://tizen.org/privilege/setting"/>
     <tizen:privilege name="http://tizen.org/privilege/notification"/>
     <tizen:privilege name="http://tizen.org/privilege/system"/>
     <tizen:privilege name="http://tizen.org/privilege/content"/>
