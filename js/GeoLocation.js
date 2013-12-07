@@ -54,7 +54,10 @@ var showTasksForMarker = function(marker){
     $('#main-nav-2').hide();
     $('#main-nav-3').show();
     currentClickedMarker = marker;
-    photos = currentClickedMarker.imagePaths.split(",");   
+    if(currentClickedMarker.imagePaths.length!=0)
+        photos = currentClickedMarker.imagePaths.split(",");   
+    else
+        photos = [];
     for(var tasks in currentClickedMarker.allMarkerTasks){
         addToHTML(currentClickedMarker.allMarkerTasks[tasks]);
         progress = progress + parseInt(currentClickedMarker.allMarkerTasks[tasks].currentProgress);
