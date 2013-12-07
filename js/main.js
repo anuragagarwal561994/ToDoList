@@ -1,6 +1,6 @@
 var chooseIcon;
 var newTaskIcon = null;
-var icons = ['cmd', 'heart', 'location', 'check', 'cross', 'list', 'new', 'video', 'photo', 'volume', 'time', 'eye', 'chat', 'search', 'user', 'mail', 'lock', 'gear', 'calender-solid'];
+var icons = ['cmd', 'heart', 'location', 'check', 'cross', 'list', 'new', 'video', 'photo', 'volume', 'time', 'eye', 'chat', 'user', 'mail', 'lock', 'gear', 'calender-solid'];
 var colors = ['#1abc9c', '#2ecc71', '#3498db', '#9b59b6', '#34495e', '#16a085', '#27ae60', '#2980b9', '#8e44ad', '#f1c40f', '#e67e22', '#e74c3c', '#95a5a6', '#f39c12', '#d35400', '#c0392b', '#bdc3c7'];
 var currentClickedIcon = null;
 var currentTaskColor = '#34495e';
@@ -9,14 +9,8 @@ var newTaskIconColor = '#1abc9c';
 var newTaskUnDoneColor = '#34495e';
 var newTaskTitleColor = "white";
 var newTaskDetailColor = "#798795";
-var sliderClasses=0;
 var progress=0;
 var totalTasks=0;
-var toBeModifiedTask=-1;
-var currentClickedTitle = null;
-var modifiedColor = null;
-var currentClickedDetail = null;
-var currentClickedUndoneTask = null;
 var collapsed = null;
 var clicked = null;
 var currentClickedTask = null;
@@ -244,14 +238,8 @@ var reset = function(){
 	newTaskUnDoneColor = '#34495e';
 	newTaskTitleColor = "white";
 	newTaskDetailColor = "#798795";
-	sliderClasses=0;
 	progress=0;
 	totalTasks=0;
-	toBeModifiedTask=-1;
-	currentClickedTitle = null;
-	modifiedColor = null;
-	currentClickedDetail = null;
-	currentClickedUndoneTask = null;
 	collapsed=null;
 	currentClickedMarker = null;
 }
@@ -262,3 +250,20 @@ function limitToCharacters(element,limit,evt){
 	}
 	return true;
 };
+var initializeAddTask = function(){
+	$('#title').val("");
+	$('#detail').val("");
+	newTaskIcon = null;
+	newTaskIconColor = '#1abc9c';
+	currentTaskColor = '#34495e';
+	colorChangeElement = '#undone-color';
+	newTaskUnDoneColor = '#34495e';
+	newTaskTitleColor = "white";
+	newTaskDetailColor = "#798795";
+	$('#title').css('color', '#000');
+	$('#detail').css('color', '#000');
+	$('#undone-color').css('background-color', '#000');
+	$('.icon').css('color', newTaskIconColor);
+	$('.icon').removeClass("clickedIcon");
+	$('#icons span.fui-new').addClass("clickedIcon");	
+}

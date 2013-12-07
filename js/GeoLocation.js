@@ -237,9 +237,7 @@ var setMarkerPosition = function(marker, position) {
         if(google.maps.geometry.spherical.computeDistanceBetween (markers[m].position, marker.position)<=radius&&markers[m].visited===false){
             navigator.notification.vibrate(2000);
             positionTimer = null;
-            $.mobile.changePage("#main", {
-            
-            });
+            showTasksForMarker(markers[m]);
             markers[m].visited = true;
             setTimeout(function(){
                 markers[m].visited = false;
@@ -272,6 +270,9 @@ $('#map').on('pageshow', function(event){
     $('#map-canvas').css('height', $(window).height() - $('div.ui-header.ui-bar-default').height()-35-$('div.ui-input-search.ui-shadow-inset.ui-btn-corner-all.ui-btn-shadow.ui-icon-searchfield.ui-body-c').height());
     google.maps.event.trigger(map, "resize");
 })
+$('#add-task').on('pageshow', function(event){
+    initializeAddTask();
+});
 $(document).on('pagechange', function(){
     $('#maincontent').css('height', $(window).height() - parseInt($('#main-header').css('height'))-2- parseInt($('#footer').css('height')));
     $('#set-location-content').css('height', $(window).height() - parseInt($("#set-location-header").css('height')) - parseInt($("#set-location-footer").css('height')));
