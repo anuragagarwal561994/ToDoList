@@ -52,8 +52,9 @@ var init = function () {
 		      	}	
 		      }
 		      else{
-		      	if(el.nodeName=="H1"){
-		      		if(el.innerHTML.length==0){
+		      	if(el.id=="place-name"){
+		      		
+		      		if(el.innerHTML.length==0 || el.innerHTML=="<br"){
 		      			el.innerHTML = "Place Name"
 		      			currentClickedMarker.placeName = "";
 		      		}
@@ -64,9 +65,8 @@ var init = function () {
 		      			document.getElementById(currentClickedMarker.position.lat()+"_"+currentClickedMarker.position.lng()).getElementsByClassName('location-place-name')[0].innerHTML=currentClickedMarker.placeName;
 		      		else
 		      			document.getElementById(currentClickedMarker.position.lat()+"_"+currentClickedMarker.position.lng()).getElementsByClassName('location-place-name')[0].innerHTML="Undefined";
-
 		      	}
-		      	else if(el.nodeName=="P"){
+		      	else if(el.id=="place-description"){
 		      		if(el.innerHTML.length==0){
 		      			el.innerHTML = "Place Description"
 		      			currentClickedMarker.placeDescription = "";
@@ -78,7 +78,6 @@ var init = function () {
 		      			document.getElementById(currentClickedMarker.position.lat()+"_"+currentClickedMarker.position.lng()).getElementsByClassName('location-place-detail')[0].innerHTML=currentClickedMarker.placeDescription
 		      		else
 		      			document.getElementById(currentClickedMarker.position.lat()+"_"+currentClickedMarker.position.lng()).getElementsByClassName('location-place-detail')[0].innerHTML="Undefined";
-
 		      	}
 		      }
 		      el.blur();

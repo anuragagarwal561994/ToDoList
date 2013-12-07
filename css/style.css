@@ -225,9 +225,6 @@ div#link-icons.large-icons.center.pad-icons{
 br{
 	clear:both;
 }
-p{
-	color: white;
-}
 /**{
 	border: 2px solid red;
 }*/
@@ -250,19 +247,10 @@ div.ui-input-search.ui-shadow-inset.ui-btn-corner-all.ui-btn-shadow.ui-icon-sear
 	margin:0px;
 	border-radius: 0px;
 }
-#place-name{
-	text-align: center;
-	font-family: 'Comic Sans MS', 'comic sans';
-	color: white;
-}
 #set-location-content{
 	overflow: auto;
 	background-color: #3498DB;
 	text-align: center;
-}
-#place-description{
-	text-align: center;
-	font-family: 'Comic Sans MS', 'comic sans';
 }
 #image-location{
 	position:absolute;
@@ -298,4 +286,8 @@ div.ui-slider-bg.ui-btn-corner-all{
 }
 div.ui-slider-track.ui-btn-down-c.ui-btn-corner-all.ui-mini{
 	border: 2px solid white;
+}
+#marker-content{
+	width: 320px;
+	height: 125px;
 }

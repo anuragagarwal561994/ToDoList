@@ -1,7 +1,8 @@
 var map,
     currentPositionMarker,
     mapCenter = new google.maps.LatLng(40.700683, -73.925972),
-    markers = new Object(), radius = 1000;
+    markers = new Object(), radius = 1000,
+    infowindow = new google.maps.InfoWindow({});
 var currentImageIndex = 0;
 
 var currentClickedMarker = null, currentTitle = null;
@@ -25,6 +26,18 @@ var markTargets = function (name, p, imagePaths, description) {
     markers[id] = marker;
     addLocationToList(marker);
     google.maps.event.addListener(marker, "click", function(point){
+        currentClickedMarker = this;
+        var placeName = this.placeName;
+        var placeDescription = this.placeDescription;
+        if(placeName.length==0)
+            placeName = "Place Name";
+        if(placeDescription.length==0)
+            placeDescription = "Place Description";
+        infowindow.setContent('<div id="marker-content"><b><p contenteditable id="place-name" onkeypress="return limitToCharacters(this, 45);">'+placeName+'</p></b>'+
+      '<p contenteditable onkeypress="return limitToCharacters(this, 200);" id="place-description">'+placeDescription+'</p></div>');        
+        infowindow.open(map,this);
+     });
+    google.maps.event.addListener(marker, "dblclick", function(point){
         showTasksForMarker(this);
      });
     
@@ -48,14 +61,6 @@ var showTasksForMarker = function(marker){
     }
     totalTasks = currentClickedMarker.allMarkerTasks.length;
     markTotalProgress(progress, totalTasks);
-    if(currentClickedMarker.placeName.length!=0)
-        document.getElementById("place-name").innerHTML = currentClickedMarker.placeName;
-    else
-        document.getElementById("place-name").innerHTML = "Place Name";
-    if(currentClickedMarker.placeDescription.length!=0)
-        document.getElementById("place-description").innerHTML = currentClickedMarker.placeDescription;
-    else
-        document.getElementById("place-description").innerHTML = "Place Description";
     $.mobile.changePage("#main", {
     })
 }
