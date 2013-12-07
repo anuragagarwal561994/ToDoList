@@ -76,11 +76,12 @@ var markTotalProgress = function(progress, totalTasks){
 }
 var delMarker = function (id) {
     marker = markers[id]; 
-    marker.setMap(null);
-    console.log('deleting');
-    deleteMarkerPositionFromDatabase(marker.position);
-    delete markers[id];
-    document.getElementById(marker.position.lat()+"_"+marker.position.lng()).remove();
+    if(marker!=null){
+        marker.setMap(null);
+        deleteMarkerPositionFromDatabase(marker.position);
+        delete markers[id];
+        document.getElementById(marker.position.lat()+"_"+marker.position.lng()).remove();    
+    }
 }
 
 function initializeMap()
