@@ -83,18 +83,11 @@ input.todo-search-field {
 	color:white;
 }
 .ui-content{
-	/*background-color: black;*/
 	padding: 0px;
 
 }
-/*div#maincontent.ui-content{
-	height: 100px;
-}*/
 #maincontent{
 	width: 100%;
-}
-div#footer.ui-footer.ui-bar-a{
-	/*border: 1px solid red;*/
 }
 a#change-view.ui-btn.ui-shadow.ui-btn-corner-all.ui-btn-icon-left.ui-btn-up-a{
 	width: 100%;
@@ -137,9 +130,6 @@ a#change-view.ui-btn.ui-shadow.ui-btn-corner-all.ui-btn-icon-right.ui-btn-hover-
 #foot-bar-container{
 	height: 20px;
 }
-/**{
-	border: 1px solid red;
-}*/
 #task-done{
 	background-color: #1abc9c;
 	border-radius: 75px;
@@ -149,9 +139,6 @@ a#change-view.ui-btn.ui-shadow.ui-btn-corner-all.ui-btn-icon-right.ui-btn-hover-
 a{
 	text-decoration: none;
 }
-/*div[data-role="page"] {
-	height: 100%;
-}*/
 #map-canvas{
 	margin-top:10px;
 	border: 1.5px solid #aaa;
@@ -182,10 +169,6 @@ div.ui-content.ui-body-c {
 div#main.ui-page.ui-body-c.ui-page-footer-fixed.ui-page-active{
 	height: 100%;
 }
-/*div.ui-dialog-contain.ui-overlay-shadow.ui-corner-all{
-	height: 30%;
-}
-*/
 div#maincontent.ui-content.ui-body-c{
 	height: 100%;
 }
@@ -225,9 +208,6 @@ div#link-icons.large-icons.center.pad-icons{
 br{
 	clear:both;
 }
-/**{
-	border: 2px solid red;
-}*/
 .nav-buttons{
 	width:auto;
 	height:auto;

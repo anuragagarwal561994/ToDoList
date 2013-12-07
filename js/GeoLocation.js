@@ -12,8 +12,6 @@ var markTargets = function (name, p, imagePaths, description) {
     marker = new google.maps.Marker({ 
         position: p,
         map: map,
-//        draggable: true,
-//        animation: google.maps.Animation.DROP
         title: currentTitle,
         clickable: true
     });
@@ -98,15 +96,6 @@ function initializeMap()
                 alert("Position too close to another position.");
                 return;
             }
-        // $("#get-title").click(function(){
-        //     currentTitle = $("#place-title").val();
-        //     $.mobile.changePage("#map", {});
-        //     addMarkerPositionToDatabase(event.latLng);
-        //     markTargets(event.latLng);
-        // });
-        // $.mobile.changePage("#define-place", {
-        //     role: "dialog"
-        // });
      addMarkerPositionToDatabase("", event.latLng,"","");
      markTargets("",event.latLng,"","");
     });
@@ -118,7 +107,6 @@ function initializeMap()
     }
     initializeDatabase(db);
     init();
-    // clearDatabase();
     var input = (document.getElementById('search-place'));
     var searchBox = new google.maps.places.SearchBox(input); 
     google.maps.event.addListener(searchBox, 'places_changed', function() {
@@ -207,7 +195,6 @@ var loadTasks = function(currentMarker){
 }
 
 function locError(error) {
-    // the current position could not be located
     alert("The current position could not be found!");
 }
 
@@ -229,9 +216,7 @@ function setCurrentPosition(pos) {
 }
 
 var displayAndWatch = function(position) {
-    // set current position
     setCurrentPosition(position);
-    // watch position
     watchCurrentPosition();
 }
 var positionTimer=null;

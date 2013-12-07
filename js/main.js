@@ -23,10 +23,6 @@ var currentClickedTask = null;
 var colorPatches = [];
 var nonLocationTasks = [];
 var init = function () {
-//	document.addEventListener("deviceready", onDeviceReady, false);
-//    function onDeviceReady() {
-//           
-//    }
 		document.addEventListener('keydown', function (event) {
 		  var el = event.target;
 		  if (el.nodeName != 'INPUT' && el.nodeName != 'TEXTAREA') {
